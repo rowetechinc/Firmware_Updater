@@ -16,7 +16,7 @@ namespace Firmware_Updater {
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.PerRequest<IShell, ShellViewModel>();
-            container.PerRequest<FirmwareUpdateViewModel, FirmwareUpdateViewModel>();
+            container.Singleton<FirmwareUpdateViewModel, FirmwareUpdateViewModel>();
         }
 
         protected override object GetInstance(Type service, string key) {

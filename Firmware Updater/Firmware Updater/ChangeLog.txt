@@ -1,0 +1,4 @@
+﻿Firmware Updater Changelog
+
+Firmware-Updater-1.0.0
+ - Initial coding.
