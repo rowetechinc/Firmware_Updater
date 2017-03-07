@@ -878,7 +878,7 @@ namespace Firmware_Updater
         /// <summary>
         /// Populate the list of available files to download.
         /// </summary>
-        private async Task BrowseForFile()
+        private void BrowseForFile()
         {
             try
             {
@@ -901,11 +901,11 @@ namespace Firmware_Updater
                     IsLocalFileSelected = true;
                 }
             }
-            catch (AccessViolationException ae)
+            catch (AccessViolationException)
             {
                 //log.Error("Error trying to open firmware file", ae);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //log.Error("Error trying to open firmware file", e);
             }

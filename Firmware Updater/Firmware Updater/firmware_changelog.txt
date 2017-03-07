@@ -1,2 +1,446 @@
-﻿ChangeLog v0.2.105 
-	Fixed bug ...
+﻿
+Release 0.2.105
+	Date: Monday, February 20, 2017 7:09:09 AM
+	- Updated Rev AH user guide
+	- Added BTIC Banner
+	- I2C write. If format error in the SN string the system would hang.
+	- When using engbw and the data format is wrong system might hang. Now system gives error message.
+	- Increased CBTMX to 400 for the 300 kHz systems
+
+Release 2.104
+	Date: Wednesday, January 4, 2017 1:56:16 PM
+	- Version 104 improved NB bottom Tracking using edge detector 
+	- Finished up data bandwidth reduction
+	- Added CED command.
+	- Changed burst interleave to only require first of a pair to have the interleave bit set.
+
+Released 0.2.102
+	Date: Wednesday, December 7, 2016 1:06:50 PM
+	- Removed power down of rcvr when stop command sent. 
+
+Released 0.2.101
+	Date: Thursday, November 10, 2016 11:14:23 AM
+	- Added time for the rcvr to wake up before running diagrcv and diagsamp
+
+Released 0.2.100
+	Date: Wednesday, November 9, 2016 12:04:51 PM
+	- Added code to the SD card to prevent hung system when SD card is slow to power up.
+
+Released 0.2.99
+	Date: Friday, November 4, 2016 7:05:05 AM
+	- Changed BT default deep blank
+	- Added 75khz defaults
+
+Released 0.2.98
+	Date: Thursday, October 13, 2016 4:40:53 AM
+	- User guide update
+	- Added Greensea default 
+	- Added CAUTOSTART and COUTRIG
+	- Added GREENSEA default type and outtrig
+
+Released 0.2.97
+	Date: Monday, September 19, 2016 2:52:02 PM
+	- Improved diagxmt to initialize the M structure prior to running. 
+	- Improved proofing in BT LL mode
+
+Date: Friday, August 19, 2016 1:43:24 PM
+Message:
+Release 0.2.96
+
+Date: Friday, August 19, 2016 1:42:46 PM
+Message:
+changed 300 kHz BT NB switch depth default to 180 meters
+
+Date: Thursday, August 18, 2016 9:48:08 AM
+Message:
+Changed BT NB switch depth to 150 meters
+
+Date: Friday, August 12, 2016 1:19:53 PM
+Message:
+Released 0.2.95
+
+Date: Friday, August 12, 2016 1:12:23 PM
+Message:
+change NB BT transmit length calc
+
+Revision: 6055
+Author: smaier
+Date: Wednesday, August 10, 2016 2:05:18 PM
+Message:
+Released 0.2.94
+
+Date: Wednesday, August 10, 2016 2:04:51 PM
+Message:
+Improved RT
+
+Date: Tuesday, August 9, 2016 8:08:24 AM
+Message:
+Released 0.2.93
+
+Date: Tuesday, August 9, 2016 8:07:41 AM
+Message:
+fixed bug where the vertical beam RT was always flagged bad. 
+
+Date: Monday, August 8, 2016 7:57:00 AM
+Message:
+Released 0.2.92
+
+Date: Monday, August 8, 2016 7:56:31 AM
+Message:
+fixed a bug with NB BT where the last 7 bins were not initialized if dual frequency systems are bottom tracking together.
+
+Date: Thursday, August 4, 2016 12:17:51 PM
+Message:
+Released 0.2.91
+
+Date: Thursday, August 4, 2016 12:17:27 PM
+Message:
+Add second parameter to CBTBL command
+updated user guide
+tag 2.91
+
+Date: Thursday, July 28, 2016 12:33:43 PM
+Message:
+Added Earth G vectors from PNI PRIME compass
+
+Date: Thursday, July 28, 2016 10:02:05 AM
+Message:
+PNI G WIP
+
+Date: Friday, July 22, 2016 8:52:44 AM
+Message:
+Released 0.2.90
+
+Date: Friday, July 22, 2016 10:20:44 AM
+Message:
+added CWPRT screening for range. updated user guide
+
+Date: Friday, July 22, 2016 8:52:14 AM
+Message:
+
+Date: Thursday, July 21, 2016 2:13:45 PM
+Message:
+
+Date: Thursday, July 21, 2016 2:13:26 PM
+Message:
+
+Date: Thursday, July 21, 2016 2:12:23 PM
+Message:
+
+Date: Thursday, July 21, 2016 2:02:25 PM
+Message:
+Ice tracker ready for testing
+
+Date: Wednesday, July 20, 2016 2:45:55 PM
+Message:
+Ice tracking RT WIP
+
+Date: Friday, July 15, 2016 2:55:06 PM
+Message:
+Ice Track WIP
+
+Date: Tuesday, July 12, 2016 7:10:52 AM
+Message:
+WPRT WIP
+
+Date: Saturday, July 9, 2016 7:46:37 AM
+Message:
+Released 0.2.89
+
+Date: Friday, June 10, 2016 10:13:53 AM
+Message:
+rev version to 2.89
+
+Date: Friday, June 10, 2016 10:07:48 AM
+Message:
+fixed issue with beam matrix in dual freq systems
+
+Date: Thursday, June 2, 2016 2:15:44 PM
+Message:
+
+Date: Wednesday, June 1, 2016 1:42:49 PM
+Message:
+Released 0.2.88
+
+Date: Wednesday, June 1, 2016 1:55:05 PM
+Message:
+updated user guide
+
+Date: Wednesday, June 1, 2016 1:42:22 PM
+Message:
+added Mx,My,Mz from PRIME compass
+Release 2.88
+
+Date: Friday, May 6, 2016 9:05:39 AM
+Message:
+rev to 2.88
+Added message to diagrcv to show test NA when using 1200 kHz
+added ES and ED commands for the WHN 
+
+Date: Wednesday, April 6, 2016 4:25:34 AM
+Message:
+Released 0.2.87
+
+Date: Wednesday, April 27, 2016 10:18:11 AM
+Message:
+updated user guide
+
+Date: Wednesday, April 6, 2016 4:25:04 AM
+Message:
+Enabled ENGBEAMSAVE to allow beam matrix calibration
+
+Date: Friday, April 1, 2016 9:20:32 AM
+Message:
+Released 0.2.86
+
+Date: Friday, April 1, 2016 9:19:21 AM
+Message:
+Added 20 msec delay to first power up for pressure sensor sampling.
+
+Date: Monday, March 21, 2016 5:38:58 AM
+Message:
+ENGRTCERROR was crashing. Changed the printfs to sprintf and used the standard output function. All is working now.
+
+Date: Tuesday, March 15, 2016 10:04:22 AM
+Message:
+Released 0.2.84
+
+Date: Tuesday, March 15, 2016 10:03:50 AM
+Message:
+Fixed RS485 wait after disable driver.
+release 2.84 
+
+Date: Monday, February 22, 2016 1:42:30 PM
+Message:
+Create Tag for Release 0.2.83
+
+Date: Monday, February 22, 2016 1:38:47 PM
+Message:
+Clear status for RTC Error in rtitime_getDateTime() until all 10 tries fail, then return Error status.
+Added ENGRTCERROR BIT test to test for RTC Error.
+
+Date: Monday, February 8, 2016 8:22:55 AM
+Message:
+Released 0.2.82
+
+Date: Monday, February 8, 2016 8:18:50 AM
+Message:
+added pressure to CEOUTPUT 2
+release 2.82
+
+Date: Thursday, January 7, 2016 12:55:04 PM
+Message:
+added a line of code to prevent -nan when the pressure sensor malfunctions
+
+Date: Thursday, December 17, 2015 11:50:20 AM
+Message:
+
+Date: Thursday, December 3, 2015 1:43:12 PM
+Message:
+
+Date: Thursday, November 5, 2015 1:32:36 PM
+Message:
+Released 0.2.81
+
+Date: Thursday, November 5, 2015 1:31:45 PM
+Message:
+fixed a bug where the hsecs and the seconds may not be synced
+
+Date: Tuesday, November 3, 2015 1:10:27 PM
+Message:
+fixed an issue with CEOUTPUT 0 and CERECORD 1. No data was being recorded.
+
+Date: Thursday, October 29, 2015 8:49:57 AM
+Message:
+Added Banner suppression 
+
+Date: Tuesday, October 27, 2015 9:55:27 AM
+Message:
+Released 0.2.78
+
+Date: Tuesday, October 27, 2015 9:54:24 AM
+Message:
+release 2.78
+
+Date: Wednesday, October 21, 2015 9:51:32 AM
+Message:
+added sub system input for velocity scale factor 
+CVSF[0] 1.000,1.015 [1] 1.000,1.000 
+
+Date: Wednesday, September 30, 2015 8:14:17 AM
+Message:
+Released 0.2.77
+
+Date: Wednesday, September 30, 2015 8:10:34 AM
+Message:
+fixed issue with recovering Baud rate when waking up.
+
+Date: Tuesday, September 29, 2015 10:34:32 AM
+Message:
+Base Ping averaging needed a few more samples so the last bin didn't come up short 
+
+Date: Monday, September 28, 2015 7:28:13 AM
+Message:
+improved DIAGBOOST and DIAGXMT to not interact 
+
+Date: Wednesday, September 23, 2015 1:44:38 PM
+Message:
+WIP fixed some issues with 7 beam transformation
+
+Date: Wednesday, September 23, 2015 7:30:21 AM
+Message:
+7 beam ready for tank test
+
+Date: Tuesday, September 22, 2015 8:13:09 AM
+Message:
+Released 0.2.76
+
+Date: Tuesday, September 22, 2015 3:18:55 PM
+Message:
+first pass at 7 beam system
+
+Date: Tuesday, September 22, 2015 8:12:32 AM
+Message:
+Version 2.76 for Kearfott Workhorse compatibility. 
+
+Date: Monday, September 21, 2015 2:59:43 PM
+Message:
+WIP Kearfott WHN commands
+
+Date: Monday, September 21, 2015 1:13:27 PM
+Message:
+added 7 and 8 data bit control for uart
+added none, odd, even parity control
+added 1 and 2 stop bit control
+
+C232B 115200,8,0,1
+C485B 921600,8,0,1
+C422B 115200,8,0,1
+
+Date: Friday, September 18, 2015 1:03:11 PM
+Message:
+Released 0.2.75
+
+Date: Friday, September 18, 2015 1:02:42 PM
+Message:
+Changed WT blank to start after transmit
+
+Date: Thursday, September 17, 2015 6:42:45 AM
+Message:
+
+Date: Friday, September 4, 2015 12:06:52 PM
+Message:
+changed earth transformation to better remove Pitch and Roll from Z velocity when transducer is 45 degrees to the compass
+
+Date: Thursday, September 3, 2015 8:53:56 AM
+Message:
+Released 0.2.74
+
+Date: Thursday, September 3, 2015 8:53:27 AM
+Message:
+added a delay to DSFORMAT to allow for slower SD cards to finish before NAND is written to.
+Release 2.74
+
+Date: Thursday, August 20, 2015 12:15:03 PM
+Message:
+added command engmem 
+
+Date: Thursday, August 20, 2015 10:16:28 AM
+Message:
+reduced the size of some unused buffers on SPI1.
+
+Date: Wednesday, August 19, 2015 6:41:26 AM
+Message:
+Released 0.2.72
+
+Date: Wednesday, August 19, 2015 6:40:59 AM
+Message:
+Releasing 2.72 with fix for recorder hanging after the first large file is downloaded
+
+Date: Friday, August 14, 2015 1:35:33 PM
+Message:
+Changed the size of the file buffer used when up/down loading data files.
+This issue was the ADCP would "hang" when files around 16 MB were uploaded. 
+
+Date: Friday, July 31, 2015 12:51:03 PM
+Message:
+commented out a debug printf during DIAGRCV
+
+Date: Tuesday, July 28, 2015 12:05:43 PM
+Message:
+Released 0.2.71
+
+Date: Tuesday, July 28, 2015 12:05:15 PM
+Message:
+Release 2.71 for shipment
+
+Date: Tuesday, July 28, 2015 6:43:16 AM
+Message:
+reduced the number of bins across the bottom return for NB processing
+
+Date: Wednesday, July 22, 2015 9:08:29 AM
+Message:
+Released 0.2.70
+
+Date: Wednesday, July 22, 2015 9:08:00 AM
+Message:
+Corrected an issue with NB BT where long lag profiling cause the bottom to be false detected.
+
+Date: Tuesday, July 21, 2015 8:53:57 AM
+Message:
+CWPBB 8 is ready for lake testing
+
+Date: Thursday, July 16, 2015 3:23:23 PM
+Message:
+CWPBB 8 in process
+
+Date: Friday, July 10, 2015 1:25:57 PM
+Message:
+added some BT debug output data
+
+Date: Thursday, July 9, 2015 3:06:59 PM
+Message:
+added more trigger control for bottom track simulation
+
+Date: Wednesday, June 24, 2015 8:59:54 AM
+Message:
+inc'd the version to 2.70 pre-release
+
+Date: Wednesday, June 24, 2015 8:57:07 AM
+Message:
+made change that prevents profile data from being output when using multiple sub systems and one or more sub systems has profiling disabled
+
+Date: Tuesday, June 16, 2015 8:48:23 AM
+Message:
+updated user guide
+
+Date: Monday, June 15, 2015 2:17:59 PM
+Message:
+Released 0.2.69
+
+Date: Monday, June 15, 2015 2:15:54 PM
+Message:
+fixed a bug when recording data (CERECORD 1) and CEOUTPUT 0.
+
+Date: Monday, June 8, 2015 1:10:28 PM
+Message:
+BT BB now truncates the processing interval to whole maximum length sequences
+
+Date: Thursday, June 4, 2015 1:01:43 PM
+Message:
+release 2.69
+
+Date: Thursday, May 28, 2015 2:52:31 PM
+Message:
+
+Date: Tuesday, May 26, 2015 7:31:40 AM
+Message:
+added range tracking name to E0000015
+
+Date: Wednesday, April 29, 2015 2:37:15 PM
+Message:
+WIP LR BT
+
+Date: Tuesday, April 28, 2015 2:56:48 PM
+Message:
+Long range NB BT WIP

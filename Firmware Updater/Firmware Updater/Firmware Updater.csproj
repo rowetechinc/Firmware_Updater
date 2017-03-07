@@ -137,6 +137,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Installer\Installer_Full.nsi" />
     <None Include="LatestFirmwareVersion.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -163,6 +164,12 @@
   <ItemGroup>
     <Resource Include="logo_small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ChangeLog.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Installer\License.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -173,6 +180,17 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>IF "$(ConfigurationName)"=="Debug" Goto Exit
+IF "$(ConfigurationName)"=="Minimal Build" Goto Exit
+
+ECHO Moving NullSoft Installer
+"C:\Program Files (x86)\NSIS\makensisw" "$(ProjectDir)\Installer\Installer_Full.nsi"
+
+move "$(ProjectDir)\Installer\RTI.Firmware.Updater.Installer.v.*" "$(TargetDir)"
+
+:Exit</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
