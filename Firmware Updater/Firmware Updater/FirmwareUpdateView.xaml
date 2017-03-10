@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="400">
+             d:DesignHeight="700" d:DesignWidth="500">
     <Grid>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width=".1*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
         
         <StackPanel Grid.Column="1">
@@ -134,17 +134,23 @@
 
         </StackPanel>
 
-        <!--Change Log-->
-        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <TextBlock  Text="{Binding ChangeLog}" Margin="30" HorizontalAlignment="Left" Foreground="White" Opacity="0.40" />
-        </ScrollViewer>
-
-        <!--Serial Output-->
-        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <TextBlock Text="{Binding SerialOutput}" Margin="30" HorizontalAlignment="Right" Foreground="White" Opacity="0.40" />
-        </ScrollViewer>
-
-        <mahapps:ProgressRing Grid.Column="1" IsActive="{Binding IsLoading}" Foreground="Red" />
+        <TabControl Grid.Column="2" Margin="20,70,20,20">
+            <TabItem Header="Change Log">
+                <!--Change Log-->
+                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock  Text="{Binding ChangeLog}" Margin="30" HorizontalAlignment="Left" Foreground="White" Opacity="0.40" />
+                </ScrollViewer>
+            </TabItem>
+            
+            <TabItem Header="Serial Output">
+                <!--Serial Output-->
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding SerialOutput}" Margin="30" HorizontalAlignment="Right" Foreground="White" Opacity="0.40" />
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        
+        <mahapps:ProgressRing Grid.Column="1" Height="200" Width="200" IsActive="{Binding IsLoading}" Foreground="Red" />
 
 
     </Grid>

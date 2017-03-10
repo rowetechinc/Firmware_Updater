@@ -53,6 +53,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
 
 namespace Firmware_Updater
 {
@@ -107,6 +108,10 @@ namespace Firmware_Updater
             Major = 0;
             Minor = 0;
             Revision = 0;
+
+            // Default file to at least upload
+            Files = new string[1];
+            Files[0] = "rtisys1.bin";
         }
     }
 
@@ -148,12 +153,30 @@ namespace Firmware_Updater
         /// </summary>
         public bool IsLoading
         {
-            get { return _IsLoading; }
+            get { return _IsLoading || _IsCheckingAdcp; }
             set
             {
                 _IsLoading = value;
                 this.NotifyOfPropertyChange(() => this.IsLoading);
                 this.NotifyOfPropertyChange(() => this.CanUpdate);
+            }
+        }
+
+        /// <summary>
+        /// Flag for checking ADCP.
+        /// </summary>
+        private bool _IsCheckingAdcp;
+        /// <summary>
+        /// Flag for checking ADCP.
+        /// </summary>
+        public bool IsCheckingAdcp
+        {
+            get { return _IsCheckingAdcp; }
+            set
+            {
+                _IsCheckingAdcp = value;
+                this.NotifyOfPropertyChange(() => this.IsCheckingAdcp);
+                this.NotifyOfPropertyChange(() => this.IsLoading);
             }
         }
 
@@ -338,6 +361,9 @@ namespace Firmware_Updater
 
                 // Reconnect the ADCP
                 ReconnectAdcpSerial(_serialOptions);
+
+                // Reset check to update
+                this.NotifyOfPropertyChange(() => this.CanUpdate);
             }
         }
 
@@ -361,6 +387,9 @@ namespace Firmware_Updater
 
                 // Reconnect the ADCP
                 ReconnectAdcpSerial(_serialOptions);
+
+                // Reset check to update
+                this.NotifyOfPropertyChange(() => this.CanUpdate);
             }
         }
 
@@ -632,7 +661,8 @@ namespace Firmware_Updater
             BrowseFileCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
             BrowseFileCommand.Subscribe(_ => BrowseForFile());
 
-            UpdateFirmwareCommand = ReactiveUI.Legacy.ReactiveCommand.Create(this.WhenAny(_ => _.CanUpdate, x => x.Value));
+            //UpdateFirmwareCommand = ReactiveUI.Legacy.ReactiveCommand.Create(this.WhenAny(_ => _.CanUpdate, x => x.Value));
+            UpdateFirmwareCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
             UpdateFirmwareCommand.Subscribe(_ => Task.Run(() => UpdateFirmware()));
         }
 
@@ -659,6 +689,7 @@ namespace Firmware_Updater
             SelectedBaud = 115200;
 
             IsLoading = false;
+            IsCheckingAdcp = false;
 
             FirmwareUpdateStatus = "";
             AdcpStatus = "ADCP NOT CONNECTED";
@@ -666,7 +697,7 @@ namespace Firmware_Updater
             IsAdcpFound = false;
             AdcpFirmwareStatus = "ADCP NOT CONNECTED";
 
-            _firmwareInfo = null;
+            _firmwareInfo = new FirmwareInfo();
             UploadFileSize = 100;           // Init to not 0
 
             LatestFirmwareVersion = "";
@@ -685,16 +716,23 @@ namespace Firmware_Updater
 
         /// <summary>
         /// Scan for any ADCP connected to the computer.
+        /// Wait for the good serial port to be found.
         /// </summary>
-        private async void ScanForAdcp()
+        /// <returns>List of all good serial ports found.</returns>
+        private async Task<List<AdcpSerialPort.AdcpSerialOptions>> ScanForAdcp()
         {
-            IsLoading = true;
+            IsCheckingAdcp = true;
+
+            List<AdcpSerialPort.AdcpSerialOptions> serialConnOptions = new List<AdcpSerialPort.AdcpSerialOptions>();
+
+            FirmwareUpdateStatus = "Looking for an ADCP";
 
             if (_serialPort != null)
             {
-                List<AdcpSerialPort.AdcpSerialOptions> serialConnOptions = new List<AdcpSerialPort.AdcpSerialOptions>();
+                // Scan all the serial ports
                 await Task.Run(() => serialConnOptions = _serialPort.ScanSerialConnection());
 
+                // If any good serial ports were found, use the first serial port
                 if (serialConnOptions.Count > 0)
                 {
                     // Set the selected ports
@@ -705,28 +743,56 @@ namespace Firmware_Updater
                     this.NotifyOfPropertyChange(() => this.SelectedCommPort);
                     this.NotifyOfPropertyChange(() => this.SelectedBaud);
 
-                    // Reconnect the ADCP
+                    // Reconnect the ADCP serial connection
                     ReconnectAdcpSerial(_serialOptions);
 
                     // Set the status
                     AdcpStatus = "ADCP Connected";
-
-                    // Set flag
-                    IsAdcpFound = true;
+                    AdcpFirmwareStatus = "ADCP Connected";
 
                     // Get the ADCP Configuration
                     await Task.Run(() => GetAdcpConfiguration());
                 }
             }
 
-            IsLoading = false;
+            IsCheckingAdcp = false;
+
+            return serialConnOptions;
         }
+
+        /// <summary>
+        /// Verify the ADCP is connected.
+        /// </summary>
+        /// <returns>TRUE = ADCP found.</returns>
+        private bool VerifyAdcpConnection()
+        {
+            AdcpFirmwareStatus = "Verifying ADCP Connection";
+
+            try
+            {
+                if (!string.IsNullOrEmpty(_SelectedCommPort))
+                {
+                    return _serialPort.TestSerialPortConnection();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+
+            return false;
+        }
+
 
         /// <summary>
         /// Get the ADCP configuration.
         /// </summary>
         private void GetAdcpConfiguration()
         {
+            // Set the status
+            FirmwareUpdateStatus = "Getting ADCP Configuration";
+
             // Send a BREAK to get the firmware version
             AdcpConfiguration config = _serialPort.GetAdcpConfiguration();
 
@@ -796,6 +862,9 @@ namespace Firmware_Updater
                 //PublishAdcpSerialConnection();
 
                 Debug.WriteLine(string.Format("ADCP Connect: {0}", _serialPort.ToString()));
+
+                // Set flag
+                IsAdcpFound = true;
 
                 return _serialPort;
             }
@@ -927,8 +996,15 @@ namespace Firmware_Updater
 
             using (WebClient wc = new WebClient())
             {
-                wc.DownloadProgressChanged += wc_DownloadProgressChanged;
-                wc.DownloadFile(new System.Uri(downloadURL), storagePath);
+                try
+                {
+                    wc.DownloadProgressChanged += wc_DownloadProgressChanged;
+                    wc.DownloadFile(new System.Uri(downloadURL), storagePath);
+                }
+                catch(Exception)
+                {
+                    // No Internet
+                }
             }
         }
 
@@ -955,26 +1031,41 @@ namespace Firmware_Updater
             {
                 string filePath = Path.GetTempPath() + @"\LatestFirmwareVersion.json";
 
+                // Remove the file if it currently exist
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
                 // Download the firmware version JSON file
                 await Task.Run(() => DownloadData("http://rowetechinc.co/adcp/LatestFirmwareVersion.json", filePath));
 
-                // Read the firmware info
-                using (StreamReader r = new StreamReader(filePath))
+                // Check if the file could be downloaded
+                if (File.Exists(filePath))
                 {
-                    string json = r.ReadToEnd();
-                    _firmwareInfo = JsonConvert.DeserializeObject<FirmwareInfo>(json);
+                    // Read the firmware info
+                    using (StreamReader r = new StreamReader(filePath))
+                    {
+                        string json = r.ReadToEnd();
+                        _firmwareInfo = JsonConvert.DeserializeObject<FirmwareInfo>(json);
+                    }
+
+                    // Set the latest firmware version
+                    LatestFirmwareVersion = _firmwareInfo.LatestVersion;
+                    InternetFile = _firmwareInfo.URL;
+
+                    // Download the changelog
+                    filePath = Path.GetTempPath() + @"\firmware_changelog.txt";
+                    await Task.Run(() => DownloadData(_firmwareInfo.ChangeLog, filePath));
+
+                    // Set changelog
+                    ChangeLog = File.ReadAllText(filePath);
                 }
-
-                // Set the latest firmware version
-                LatestFirmwareVersion = _firmwareInfo.LatestVersion;
-                InternetFile = _firmwareInfo.URL;
-
-                // Download the changelog
-                filePath = Path.GetTempPath() + @"\firmware_changelog.txt";
-                await Task.Run(() => DownloadData(_firmwareInfo.ChangeLog, filePath));
-
-                // Set changelog
-                ChangeLog = File.ReadAllText(filePath);
+                else
+                {
+                    // No internet, so select Local file
+                    IsInternetSelected = false;
+                }
             }
             catch(Exception e)
             {
@@ -989,25 +1080,69 @@ namespace Firmware_Updater
         /// <summary>
         /// Update the firmware based off selected option.
         /// </summary>
-        private async void UpdateFirmware()
+        private async Task<bool> UpdateFirmware()
         {
             IsLoading = true;
+
+            // Verify an ADCP is connected and the correct baud rate
+            bool adcpVerify = false;
+            await Task.Run(() => adcpVerify = VerifyAdcpConnection());
+            if(!adcpVerify)
+            {
+                // Can for the ADCP
+                await Task.Run(() => ScanForAdcp());
+
+                // Verify if ADCP is now connected and if not
+                // Give a warning and stop
+                await Task.Run(() => adcpVerify = VerifyAdcpConnection());
+                if(!adcpVerify)
+                {
+                    MessageBox.Show("Error talking to the ADCP.  Check your baud rate and comm port.", "No ADCP Connected", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    IsLoading = false;
+                    return false;
+                }
+            }
 
             // Use the local file
             if(IsLocalFileSelected)
             {
-                await Task.Run(() => UpdateFirmwareLocal());
+                if (string.IsNullOrEmpty(_LocalFilePath))
+                {
+                    MessageBox.Show("Firmware zip file not selected.", "No Firmware Selected", MessageBoxButton.OK, MessageBoxImage.Error);
+                    FirmwareUpdateStatus = "Error: Select a firmware file.";
+                }
+                else
+                {
+                    await Task.Run(() => UpdateFirmwareLocal());
+
+                    // Get the ADCP Configuration
+                    await Task.Run(() => GetAdcpConfiguration());
+                }
             }
             else
             {
-                // Use the downloaded zip file
-                await Task.Run(() => UpdateFirmwareRemote());
+                if (string.IsNullOrEmpty(_InternetFile))
+                {
+                    MessageBox.Show("Firmware zip file could not be downloaded.", "No Firmware Selected", MessageBoxButton.OK, MessageBoxImage.Error);
+                    FirmwareUpdateStatus = "Error: Select a firmware file.";
+                }
+                else
+                {
+
+                    // Use the downloaded zip file
+                    //await Task.Run(() => UpdateFirmwareRemote());
+                    UpdateFirmwareRemote();
+
+                    // Get the ADCP Configuration
+                    //await Task.Run(() => GetAdcpConfiguration());
+                    GetAdcpConfiguration();
+                }
             }
 
-            // Get the ADCP Configuration
-            await Task.Run(() => GetAdcpConfiguration());
-
             IsLoading = false;
+
+            return true;
         }
 
         /// <summary>
@@ -1027,7 +1162,7 @@ namespace Firmware_Updater
                     string zipPath = LocalFilePath;
 
                     // Set the status
-                    FirmwareUpdateStatus = "Loading Firmware";
+                    AdcpFirmwareStatus = "Uploading Firmware";
 
                     // Upload the data to the ADCP
                     UploadToAdcp(zipPath, fileName);
@@ -1062,6 +1197,9 @@ namespace Firmware_Updater
 
                     // Download the firmware version JSON file
                     DownloadData(_firmwareInfo.URL, zipPath);
+
+                    // Set the status
+                    AdcpFirmwareStatus = "Uploading Firmware";
 
                     // Upload the downloaded data to the ADCP
                     UploadToAdcp(zipPath, fileName);
