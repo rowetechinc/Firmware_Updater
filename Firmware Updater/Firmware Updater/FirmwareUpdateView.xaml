@@ -138,14 +138,14 @@
             <TabItem Header="Change Log">
                 <!--Change Log-->
                 <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <TextBlock  Text="{Binding ChangeLog}" Margin="30" HorizontalAlignment="Left" Foreground="White" Opacity="0.40" />
+                    <TextBlock  Text="{Binding ChangeLog}" Margin="30" Foreground="White" Opacity="0.40" />
                 </ScrollViewer>
             </TabItem>
             
             <TabItem Header="Serial Output">
                 <!--Serial Output-->
                 <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <TextBlock Text="{Binding SerialOutput}" Margin="30" HorizontalAlignment="Right" Foreground="White" Opacity="0.40" />
+                    <TextBlock Text="{Binding SerialOutput}" Margin="30" Foreground="White" Opacity="0.40" />
                 </ScrollViewer>
             </TabItem>
         </TabControl>
