@@ -703,7 +703,7 @@ namespace Firmware_Updater
             LatestFirmwareVersion = "";
             ChangeLog = "";
 
-            LocalFileTooltip = "Select the RTISYS1.bin or firmware zip file";
+            LocalFileTooltip = "Select the firmware zip file";
             InternetFileTooltip = "Get the latest file from the internet.  This will download a zip file and store it to a temporary location.";
             IsInternetSelected = true;
 
