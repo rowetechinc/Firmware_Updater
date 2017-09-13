@@ -25,7 +25,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;Name and file
 	Name "Rowe Technology Inc. - Vault"
-	OutFile "RTI.Firmware.Updater.Installer.v.1.0.0.Full.exe"
+	OutFile "RTI.Firmware.Updater.Installer.v.1.1.0.Full.exe"
 
 	;Default installation folder
 	InstallDir "$PROGRAMFILES\Rowe Technology Inc\Fimware Updater"
@@ -75,9 +75,9 @@ Var /GLOBAL VERSION_MINOR
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Section "Core" SecCore
 
-	StrCpy $VERSION_NUM "1.0.0" 
+	StrCpy $VERSION_NUM "1.1.0" 
 	StrCpy $VERSION_MAJOR "1"
-	StrCpy $VERSION_MINOR "0"
+	StrCpy $VERSION_MINOR "1"
 
 	SetOutPath $INSTDIR
 
