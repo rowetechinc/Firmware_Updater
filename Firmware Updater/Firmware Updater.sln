@@ -5,14 +5,14 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firmware Updater", "Firmware Updater\Firmware Updater.csproj", "{3D50FD56-0718-49F6-BB10-AD4C8E98F99F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTI", "..\..\..\Pulse Exporter\Pulse_Exporter\RTI\RTI.csproj", "{B69F49CD-CCA9-4532-A4A0-E185CD3FAB33}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A7577AA6-712E-4D58-9DB1-BE567D824B71}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTI", "RTI\RTI.csproj", "{B69F49CD-CCA9-4532-A4A0-E185CD3FAB33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
