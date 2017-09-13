@@ -2,6 +2,7 @@
 
 Firmware-Updater-1.1.0
  - Handle if local version is a newer version then on the internet.
+ - Automatically scan for ADCP when serial port options changed.
 
 Firmware-Updater-1.0.0
  - Initial coding.
