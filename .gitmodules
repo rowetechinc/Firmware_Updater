@@ -1,0 +1,4 @@
+[submodule "Firmware Updater/RTI"]
+	path = Firmware Updater/RTI
+	url = https://github.com/rowetechinc/RTI
+	branch = master
