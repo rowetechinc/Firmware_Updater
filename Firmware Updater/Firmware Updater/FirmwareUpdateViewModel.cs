@@ -816,12 +816,35 @@ namespace Firmware_Updater
                     {
                         AdcpFirmwareStatus = "ADCP Firmware Update Available";
                     }
-                    else if (_firmwareInfo.Revision == config.AdcpSerialOptions.Firmware.FirmwareRevision)
+                    else if (_firmwareInfo.Revision <= config.AdcpSerialOptions.Firmware.FirmwareRevision)
                     {
                         AdcpFirmwareStatus = "ADCP Firmware Up To Date";
                     }
                 }
             }
+            FirmwareUpdateStatus = "Ready...";
+        }
+
+        /// <summary>
+        /// Use background worker to get the configuration.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TryGetConfiguration(object sender, DoWorkEventArgs e)
+        {
+            IsLoading = true;
+
+            // If the ADCP is found, get configuration
+            if (VerifyAdcpConnection())
+            {
+                // Set the status
+                AdcpStatus = "ADCP Connected";
+                AdcpFirmwareStatus = "ADCP Connected";
+
+                GetAdcpConfiguration();
+            }
+
+            IsLoading = false;
         }
 
         #endregion
@@ -865,6 +888,11 @@ namespace Firmware_Updater
 
                 // Set flag
                 IsAdcpFound = true;
+
+                // Try to get the configuration
+                BackgroundWorker bg = new BackgroundWorker();
+                bg.DoWork += TryGetConfiguration;
+                bg.RunWorkerAsync();
 
                 return _serialPort;
             }
