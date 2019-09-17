@@ -124,6 +124,11 @@ namespace Firmware_Updater
         #region Variables
 
         /// <summary>
+        /// URL to look for the latest firmware.
+        /// </summary>
+        private string DOWNLOAD_FIRMWARE_URL = "http://rowetechinc.co/adcp/LatestFirmwareVersion.json";
+
+        /// <summary>
         /// ADCP Serial port.
         /// </summary>
         private AdcpSerialPort _serialPort;
@@ -750,8 +755,16 @@ namespace Firmware_Updater
                     AdcpStatus = "ADCP Connected";
                     AdcpFirmwareStatus = "ADCP Connected";
 
+                    // Set flag
+                    IsAdcpFound = true;
+
                     // Get the ADCP Configuration
                     await Task.Run(() => GetAdcpConfiguration());
+                }
+                else
+                {
+                    // Set flag
+                    IsAdcpFound = false;
                 }
             }
 
@@ -841,6 +854,9 @@ namespace Firmware_Updater
                 AdcpStatus = "ADCP Connected";
                 AdcpFirmwareStatus = "ADCP Connected";
 
+                // Set flag
+                IsAdcpFound = true;
+
                 GetAdcpConfiguration();
             }
 
@@ -885,9 +901,6 @@ namespace Firmware_Updater
                 //PublishAdcpSerialConnection();
 
                 Debug.WriteLine(string.Format("ADCP Connect: {0}", _serialPort.ToString()));
-
-                // Set flag
-                IsAdcpFound = true;
 
                 // Try to get the configuration
                 BackgroundWorker bg = new BackgroundWorker();
@@ -1066,7 +1079,7 @@ namespace Firmware_Updater
                 }
 
                 // Download the firmware version JSON file
-                await Task.Run(() => DownloadData("http://rowetechinc.co/adcp/LatestFirmwareVersion.json", filePath));
+                await Task.Run(() => DownloadData(DOWNLOAD_FIRMWARE_URL, filePath));
 
                 // Check if the file could be downloaded
                 if (File.Exists(filePath))
