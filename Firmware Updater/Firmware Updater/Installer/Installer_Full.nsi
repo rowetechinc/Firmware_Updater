@@ -25,7 +25,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;Name and file
 	Name "Rowe Technology Inc. - Vault"
-	OutFile "RTI.Firmware.Updater.Installer.v.1.1.0.Full.exe"
+	OutFile "RTI.Firmware.Updater.Installer.v.2.0.0.Full.exe"
 
 	;Default installation folder
 	InstallDir "$PROGRAMFILES\Rowe Technology Inc\Fimware Updater"
@@ -75,9 +75,9 @@ Var /GLOBAL VERSION_MINOR
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Section "Core" SecCore
 
-	StrCpy $VERSION_NUM "1.1.0" 
-	StrCpy $VERSION_MAJOR "1"
-	StrCpy $VERSION_MINOR "1"
+	StrCpy $VERSION_NUM "2.0.0" 
+	StrCpy $VERSION_MAJOR "2"
+	StrCpy $VERSION_MINOR "0"
 
 	SetOutPath $INSTDIR
 
@@ -87,8 +87,8 @@ Section "Core" SecCore
 	CreateDirectory "$INSTDIR\x86"
 	File "..\bin\Release\Firmware Updater.exe"
 	File "..\bin\Release\RTI.dll"
-	File "/oname=x64\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\x64\SQLite.Interop.dll"
-	File "/oname=x86\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\x86\SQLite.Interop.dll"
+	File "/oname=x64\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.111.0\build\net451\x64\SQLite.Interop.dll"
+	File "/oname=x86\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.111.0\build\net451\x86\SQLite.Interop.dll"
 	
 	; Create shortcut in start menu
 	CreateDirectory "$SMPROGRAMS\RTI"
