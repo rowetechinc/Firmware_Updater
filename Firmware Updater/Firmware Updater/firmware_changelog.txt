@@ -1,4 +1,169 @@
-﻿
+﻿Release 0.2.133
+        Date: Monday, September 16, 2019 4:55:39 AM 
+        1. Rev to version 0.2.133
+        2. Changed default CBTAMPREF[0] 0.xx,50.00 to turn off life layer rejection
+Release 0.2.132
+        Date: Wednesday, September 4, 2019 5:46:48 AM 
+        1. Rev to version 0.2.132
+        2. Added output data structure 11 and 12 which are the same as DVL 1 and 2. allowing PRDVL mode to output RDI DVL strings 1 and 2.
+        3. Added the c parameter to CTRIG a,b,c. The c parameter triggers the first ping of an ensemble. the rest of the pings in the ensemble use the TBP commands. You must select parameter as non-zero for parameter c to have any affect.
+        4. vertical beam profile data was incorrectly zeroed when CWPX disabled any beam transmit.
+Release 0.2.131
+        Date: Wednesday, August 7, 2019 5:46:48 AM 
+        1. Changed default for 600 kHz BT: CBTAMPREF 0.25,125.00 
+        2. fixed BT ENG data recording issue with CPRDVL mode. The files were zero length due to using wrong size pointer.
+        3. Updated help file for CBTAMPREF
+        4. added RESTARTSECONS n<CR> to allow a selectable restart time
+        5. updated the CWPX command to show the correct enabled beams for the 7 beams system and the vertical beams. CWPX[0] 0.00,0,1110 [1] 0.00,0,1110 [2] 0.00,0,0001 
+	6. Added new BT command CBTAMPREF
+Release 0.2.129
+        Date: Monday, July 1, 2019 5:52:54 AM
+        1. Added logic to PD0 to ensure the number of beams always has a non-zero value.
+        2. Added ICMPTIMEOUT n command to allow reconnection to Ethernet Link.
+PreRelease 0.2.128
+        Date: Wednesday, June 26, 2019 1:28:35 PM
+        1. removed depth check in WT
+PreRelease 0.2.127
+        Date: Monday, June 24, 2019 6:41:38 AM
+        1. added break output during bottom track simulation tests
+        2. CPRDVL mode bug fix where only 1 profile ping per ensemble was possible.
+        3. changed the NB profile correlation data in PD0 output
+        4. turn off some debug output
+        5. Improved power fail logic when power is turned back on
+        6. CSAVE now stores the IP address and UDPport in non-volatile memory. Same Baud rates. 
+        7. improved RT to better limit the max sample if user doesn't select enough bins
+        8. Removed the BT SNR test from RT 
+        9. improved processing times and bandwidth selection for NB BT.
+Release 0.2.126
+	Date: Friday, April 12, 2019 01:01:00 AM
+        1. Removed a bug introduced in version 0.2.122 that prevented autostart from working.
+Release 0.2.124
+	Date: Monday, March 25, 2019 01:01:00 AM
+        1. fixed bug on 1200 khz beams 0 and 1 which place a zero in the amplitude and correlation profile data
+Release 0.2.123
+	Date: Monday, Febuary 25, 2019 7:01:00 AM
+        1. changed copyright notice to 2019
+        2. added conditional data output to PD0. Also for 1 and 3 beam systems PD0.
+        3. added PD0 less than 4 beams
+Release 0.2.122
+	Date: Friday, Febuary 22, 2019 1:26:43 PM
+	1. Added Firmware version in cshow
+	2. Allow disable data output during PD0 pinging. Use CERECORD 9 to record PD0 data. Set CEOUTPUT 0,x to disable output.
+	3. Turn off XYZ and Earth coordinate calculations when only requiring beam data. CED 100xxx
+	4. Flag the unused beam data in PD0 when less than 4 beams.
+	5. Increase the number of burst interleaved pings from 2 to n. CBI HH:MM:SS.hh,n,m = Burst Interval, Ensembles per Burst, Burst pair, Waves mode
+	6. updated user guide rev AL
+
+Release 0.2.121
+	Date: Monday, January 22, 2019 8:31:46 AM
+	Added flag to prevent UDP output when link not connected or not OK.
+Release 0.2.120
+	Date: Monday, December 3, 2018 8:34:41 AM
+	Added 4 second timeout to break detect timeout when pinging.
+	Added turning off I2C buffer prior to setting the RTC alarm for sleep.
+
+Release 0.2.119
+	Date: Tuesday, June 19, 2018 4:51:41 AM
+	fixed writing of ENGXMTBITSAVE parameters when more than 2 subsystems. Subsystem 2 would write incorrectly and subsystem 0 would be partially overwritten at the same time. 
+
+Release 0.2.118
+	Date: Thursday, April 26, 2018 8:19:22 AM
+	Added 57600 BAUD to Non-Volatile storage
+
+Release 0.2.116
+	Date: Tuesday, March 6, 2018 8:40:22 AM
+	Added CED function the Profile Text output
+
+Release 0.2.115
+	Date: Thursday, January 25, 2018 9:09:02 AM
+	Fixed issue with EngSpectrum
+
+	Date: Wednesday, November 29, 2017 2:39:53 PM
+	Added delay between serial output bytes for WHN mode and keep the RS422 driver turned on at all times.
+
+	Date: Wednesday, September 13, 2017 8:06:54 AM
+	added pd0 transformation input to UDP
+
+Release 0.2.111
+
+	Date: Wednesday, September 13, 2017 7:02:02 AM
+	VM default with CPRDVL mode
+
+	Date: Tuesday, September 12, 2017 2:10:57 PM
+	added buffer check to UDP output
+	updated user guide
+
+	Date: Monday, September 11, 2017 2:50:44 PM
+	updated user guide
+
+	Date: Thursday, September 7, 2017 7:08:08 AM
+	updated user guide
+
+	Date: Thursday, August 3, 2017 12:09:49 PM
+	Added CPRDVL mode
+Release 0.2.110
+
+	Date: Tuesday, August 1, 2017 8:09:38 AM
+	added CMACOUT to list of possible profile outputs
+Release 0.2.109
+
+	Date: Monday, July 31, 2017 2:59:53 PM
+	WIP adding multiport binary profile output
+
+	Date: Monday, July 10, 2017 12:14:50 PM
+	prevented WPRT data from being output when wpon 0
+
+	Date: Monday, July 10, 2017 9:50:39 AM
+	Verified long range bt improvements
+
+	Date: Wednesday, May 31, 2017 8:58:04 AM
+	added Ethernet improvements for DSFORMAT
+Release 0.2.108
+
+	Date: Thursday, May 25, 2017 12:05:08 PM
+	Release 0.2.107
+
+	Date: Thursday, May 25, 2017 10:26:36 AM
+	fixed xmt on 3 beam system to not ping all 4 beams
+
+	Date: Thursday, May 25, 2017 10:14:24 AM
+	7 beam systems now ping the vertical beam on the correct xmt channel
+
+	Date: Tuesday, May 23, 2017 4:30:30 AM
+	Added Life Layer check to NB Bottom Track
+
+	Date: Monday, May 22, 2017 6:36:52 AM
+	made sure xmt is disabled when taking the noise sample for NB profiling
+
+	Date: Friday, May 19, 2017 1:49:08 PM
+	fixed diagspectrum for 7 beam systems
+Release 0.2.106
+
+	Date: Thursday, May 11, 2017 12:04:25 PM
+	ENGBTDATA was updated to use CEOUTPUT 99 on the RS485
+
+	Date: Tuesday, May 9, 2017 4:33:31 AM
+	fixed a bug in the CVSF command parser. When decoding the sub system number the pointer was not offset to the first parameter therefore a zero was read in.
+
+	Date: Monday, May 8, 2017 2:50:24 PM
+	CVSF is not allowed to be 0.00 if so it is forced to be 1.00
+
+	Date: Monday, May 8, 2017 1:20:07 PM
+	More UDP DVL
+
+	Date: Monday, May 8, 2017 10:29:51 AM
+	added binary PD3,4,5 to UDP output
+
+	Date: Friday, April 28, 2017 2:07:20 PM
+	release user guide AH
+
+	Date: Monday, March 13, 2017 8:36:21 AM
+	added a few more bytes to ENGRR transmit buffer recording
+
+	Date: Monday, March 6, 2017 10:17:33 AM
+	turned off debug code time of first ping.
+	stfp = rtitime_SecondsToFirstPing(CMD_SOURCE_UART1,0);
+	
 Release 0.2.105
 	Date: Monday, February 20, 2017 7:09:09 AM
 	- Updated Rev AH user guide

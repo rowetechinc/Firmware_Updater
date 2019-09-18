@@ -126,7 +126,7 @@ namespace Firmware_Updater
         /// <summary>
         /// URL to look for the latest firmware.
         /// </summary>
-        private string DOWNLOAD_FIRMWARE_URL = "http://rowetechinc.co/adcp/LatestFirmwareVersion.json";
+        private string DOWNLOAD_FIRMWARE_URL = "http://rowetechinc.com/swfw/latest/firmware/LatestFirmwareVersion.json";
 
         /// <summary>
         /// ADCP Serial port.
