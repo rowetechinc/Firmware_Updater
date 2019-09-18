@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Firmware Updater")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Rowe Technologies, Inc.")]
 [assembly: AssemblyProduct("Firmware Updater")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

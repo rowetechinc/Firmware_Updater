@@ -47,16 +47,16 @@
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="30" Foreground="Gray" />
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="30" Foreground="White" />
 
-                        <ToggleButton Grid.Row="1" x:Name="firmwareToggle" Background="RoyalBlue" BorderBrush="Transparent" HorizontalAlignment="Center" >
+                        <ToggleButton Grid.Row="1" x:Name="firmwareToggle" Background="RoyalBlue" BorderBrush="Transparent" >
                             <Label Content="Select Firmware" FontSize="16" Margin="60,5" Foreground="White" />
                         </ToggleButton>
 
                         <TextBlock Grid.Row="3" Width="60" Margin="5,30,5,0" Text="{Binding LatestFirmwareVersion}" ToolTip="{Binding InternetFileTooltip}" FontWeight="Bold" FontSize="14" Foreground="White" HorizontalAlignment="Center"   />
 
-                        <ProgressBar Grid.Row="4" Grid.Column="0" Margin="5,0" Value="{Binding DownloadProgress}" HorizontalAlignment="Center" Width="200" />
+                        <!--ProgressBar Grid.Row="4" Grid.Column="0" Margin="5,0" Value="{Binding DownloadProgress}" HorizontalAlignment="Center" Width="200" /-->
                     </Grid>
 
-                    <iconPacks:PackIconMaterial Grid.Column="1" Kind="ArrowRight" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Height="45" Width="45" Foreground="White" />
+                    <iconPacks:PackIconMaterial Grid.Column="1" Kind="ArrowRight" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Height="30" Width="30" Foreground="White" />
 
                     <!--ADCP Connection-->
                     <Grid Grid.Column="2">
@@ -71,7 +71,7 @@
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="Console" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="Gray" />
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="Console" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="White" />
 
-                        <ToggleButton Grid.Row="1" x:Name="adcpConnToggle" Background="RoyalBlue" BorderBrush="Transparent" HorizontalAlignment="Center" >
+                        <ToggleButton Grid.Row="1" x:Name="adcpConnToggle" Background="RoyalBlue" BorderBrush="Transparent"  >
                             <Label Content="Select ADCP" FontSize="16" Margin="60,5" Foreground="White" />
                         </ToggleButton>
 
@@ -80,7 +80,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding AdcpFirmwareVersion}" Margin="4.5,5,0.5,5" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" />
                     </Grid>
 
-                    <iconPacks:PackIconMaterial Grid.Column="3" Kind="ArrowRight" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Height="45" Width="45" Foreground="White" />
+                    <iconPacks:PackIconMaterial Grid.Column="3" Kind="ArrowRight" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Height="30" Width="30" Foreground="White" />
 
                     <!--Flash-->
                     <Grid Grid.Column="4">
@@ -95,13 +95,13 @@
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="Flash" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="30" Foreground="Gray" />
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="Flash" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="30" Foreground="White" />
 
-                        <ToggleButton Grid.Row="1" x:Name="flashToggle" Background="RoyalBlue" BorderBrush="Transparent" HorizontalAlignment="Center" IsEnabled="{Binding CanUpdate}" Command="{Binding UpdateFirmwareCommand}" ToolTip="Start the update process." >
+                        <ToggleButton Grid.Row="1" x:Name="flashToggle" Background="RoyalBlue" BorderBrush="Transparent" IsEnabled="{Binding CanUpdate}" Command="{Binding UpdateFirmwareCommand}" ToolTip="Start the update process." >
                             <Label Content="Flash!" FontSize="16" Margin="60,5" Foreground="White" />
                         </ToggleButton>
 
                         <TextBlock Grid.Row="2" Text="{Binding AdcpFirmwareStatus}" Margin="5,30,5,0" HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="16" />
                         <TextBox Grid.Row="3" Text="{Binding FirmwareUpdateStatus}" ToolTip="{Binding FirmwareUpdateStatus}"  Margin="5, 0" FontWeight="Bold" IsReadOnly="True" Background="Transparent" BorderBrush="Transparent" Foreground="White" HorizontalAlignment="Center"  />
-                        <ProgressBar Grid.Row="4" Margin="5,2.5" Value="{Binding UploadFileProgress}" Maximum="{Binding UploadFileSize}" HorizontalAlignment="Center" Width="200"  />
+                        <!--ProgressBar Grid.Row="4" Margin="5,2.5" Value="{Binding UploadFileProgress}" Maximum="{Binding UploadFileSize}" HorizontalAlignment="Center" Width="200"  /-->
                         
                     </Grid>
 
@@ -153,10 +153,11 @@
                     <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" />
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="COMM" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" Margin="10,5" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Baud" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" Margin="10,5" />
+                    <!--TextBlock Grid.Row="2" Grid.Column="1" Text="Baud" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" Margin="10,5" /-->
                     <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding SelectedCommPort}" Margin="10,5" />
-                    <ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding SelectedBaud}" />
-
+                    <!--ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding SelectedBaud}" /-->
+                    <Button Grid.Row="3" Grid.Column="1" Margin="5" Content="Connect" Command="{Binding ConnectAdcpCommand}" IsEnabled="{Binding IsNotLoading}" />
+                    
                     <Separator Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" />
                     
                     <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AdcpStatus}" Margin="10,5,5,2.5" Foreground="PaleVioletRed" FontWeight="Bold" HorizontalAlignment="Center"  />
@@ -226,7 +227,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,30,10,20" />
+            
+            
+            <!--Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,30,10,20" /-->
+            <ProgressBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,30,10,20"  Value="{Binding UploadFileProgress}" Maximum="{Binding UploadFileSize}"  />
 
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock  Text="Rowe Technologies, Inc. " Foreground="DarkGray" FontSize="12" FontWeight="Bold"  />

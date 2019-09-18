@@ -164,7 +164,13 @@ namespace Firmware_Updater
                 _IsLoading = value;
                 this.NotifyOfPropertyChange(() => this.IsLoading);
                 this.NotifyOfPropertyChange(() => this.CanUpdate);
+                this.NotifyOfPropertyChange(() => this.IsNotLoading);
             }
+        }
+
+        public bool IsNotLoading
+        {
+            get { return !IsLoading; }
         }
 
         /// <summary>
@@ -182,8 +188,12 @@ namespace Firmware_Updater
                 _IsCheckingAdcp = value;
                 this.NotifyOfPropertyChange(() => this.IsCheckingAdcp);
                 this.NotifyOfPropertyChange(() => this.IsLoading);
+                this.NotifyOfPropertyChange(() => this.IsNotLoading);
             }
         }
+
+
+
 
         #endregion
 
@@ -365,7 +375,7 @@ namespace Firmware_Updater
                 _serialOptions.Port = value;
 
                 // Reconnect the ADCP
-                ReconnectAdcpSerial(_serialOptions);
+                //ReconnectAdcpSerial(_serialOptions);
 
                 // Reset check to update
                 this.NotifyOfPropertyChange(() => this.CanUpdate);
@@ -391,7 +401,7 @@ namespace Firmware_Updater
                 _serialOptions.BaudRate = value;
 
                 // Reconnect the ADCP
-                ReconnectAdcpSerial(_serialOptions);
+                //ReconnectAdcpSerial(_serialOptions);
 
                 // Reset check to update
                 this.NotifyOfPropertyChange(() => this.CanUpdate);
@@ -647,6 +657,11 @@ namespace Firmware_Updater
         /// </summary>
         public ReactiveCommand<object> UpdateFirmwareCommand { get; protected set; }
 
+        /// <summary>
+        /// Connect the ADCP.
+        /// </summary>
+        public ReactiveCommand<object> ConnectAdcpCommand { get; protected set; }
+
         #endregion
 
         /// <summary>
@@ -669,6 +684,9 @@ namespace Firmware_Updater
             //UpdateFirmwareCommand = ReactiveUI.Legacy.ReactiveCommand.Create(this.WhenAny(_ => _.CanUpdate, x => x.Value));
             UpdateFirmwareCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
             UpdateFirmwareCommand.Subscribe(_ => Task.Run(() => UpdateFirmware()));
+
+            ConnectAdcpCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
+            ConnectAdcpCommand.Subscribe(_ => Task.Run(() => ReconnectAdcp()));
         }
 
         /// <summary>
@@ -867,6 +885,14 @@ namespace Firmware_Updater
 
         #region Serial Connection
 
+        public async void ReconnectAdcp()
+        {
+            IsLoading = true;
+
+            // Reconnect the ADCP
+            await Task.Run(() => ReconnectAdcpSerial(_serialOptions));
+        }
+
         /// <summary>
         /// Create a connection to the ADCP serial port with
         /// the given options.  If no options are given, return null.
@@ -890,6 +916,9 @@ namespace Firmware_Updater
                 _serialPort = new AdcpSerialPort(options);
                 _serialPort.Connect();
 
+                // Force the baud rate to 115200
+                _serialPort.SendForceBreak();
+                _serialOptions.BaudRate = 115200;
 
                 // Subscribe to receive ADCP data
                 _serialPort.ReceiveAdcpSerialDataEvent += new AdcpSerialPort.ReceiveAdcpSerialDataEventHandler(ReceiveAdcpSerialData);

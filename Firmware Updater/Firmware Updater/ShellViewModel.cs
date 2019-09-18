@@ -9,7 +9,7 @@ namespace Firmware_Updater {
     {
         public ShellViewModel()
         {
-            base.DisplayName = "RoweTech Inc. Firmware Updater";
+            base.DisplayName = "Rowe Technologies, Inc. Firmware Updater";
 
             // Set the view
             var vm = IoC.Get<FirmwareUpdateViewModel>();

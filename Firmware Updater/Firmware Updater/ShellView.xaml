@@ -1,7 +1,8 @@
 <mahapps:MetroWindow x:Class="Firmware_Updater.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Icon="favicon.ico">
+        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Icon="favicon.ico"
+        Height="550" Width="950">
 
     <Grid Background="#FF3E3E42">
         <ContentControl x:Name="ActiveItem" />
