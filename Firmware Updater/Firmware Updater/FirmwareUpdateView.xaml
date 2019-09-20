@@ -71,7 +71,7 @@
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="Console" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="Gray" />
                         <iconPacks:PackIconMaterial Grid.Row="0" Kind="Console" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="White" />
 
-                        <ToggleButton Grid.Row="1" x:Name="adcpConnToggle" Background="RoyalBlue" BorderBrush="Transparent"  >
+                        <ToggleButton Grid.Row="1" x:Name="adcpConnToggle" Background="RoyalBlue" BorderBrush="Transparent" Command="{Binding OpenAdcpConnectPopupCommand}"  >
                             <Label Content="Select ADCP" FontSize="16" Margin="60,5" Foreground="White" />
                         </ToggleButton>
 

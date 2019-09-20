@@ -662,6 +662,12 @@ namespace Firmware_Updater
         /// </summary>
         public ReactiveCommand<object> ConnectAdcpCommand { get; protected set; }
 
+        /// <summary>
+        /// Open Adcp Connect Popup.
+        /// </summary>
+        public ReactiveCommand<object> OpenAdcpConnectPopupCommand { get; protected set; }
+        
+
         #endregion
 
         /// <summary>
@@ -687,6 +693,10 @@ namespace Firmware_Updater
 
             ConnectAdcpCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
             ConnectAdcpCommand.Subscribe(_ => Task.Run(() => ReconnectAdcp()));
+            
+
+            OpenAdcpConnectPopupCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
+            OpenAdcpConnectPopupCommand.Subscribe(_ => Task.Run(() => OpenAdcpConnectPopup()));
         }
 
         /// <summary>
@@ -1348,6 +1358,19 @@ namespace Firmware_Updater
                 Debug.WriteLine("Error uploading the files to the ADCP: " + e.Message);
                 System.Windows.MessageBox.Show("Error uploading to the ADCP. " + e.Message, "Error Uploading to the ADCP", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
+        }
+
+        #endregion
+
+        #region Popups
+
+        /// <summary>
+        /// Adcp Connect Popup is Opened.
+        /// </summary>
+        public void OpenAdcpConnectPopup()
+        {
+            // Reset the list with the latest ports available
+            CommPortList = SerialOptions.PortOptions;
         }
 
         #endregion
