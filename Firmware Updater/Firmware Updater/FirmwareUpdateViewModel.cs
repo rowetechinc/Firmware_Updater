@@ -53,7 +53,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Windows;
+//using System.Windows;
+using AutoUpdaterDotNET;
+using System;
+using System.Windows.Forms;
 
 namespace Firmware_Updater
 {
@@ -127,6 +130,11 @@ namespace Firmware_Updater
         /// URL to look for the latest firmware.
         /// </summary>
         private string DOWNLOAD_FIRMWARE_URL = "http://rowetechinc.com/swfw/latest/firmware/LatestFirmwareVersion.json";
+
+        /// <summary>
+        /// URL to look for the latest software info.
+        /// </summary>
+        private string SOFTWARE_UPDATE_URL = "http://rowetechinc.com/swfw/latest/firmware/Firmware_Updater_AppCast.xml";
 
         /// <summary>
         /// ADCP Serial port.
@@ -635,7 +643,45 @@ namespace Firmware_Updater
                 this.NotifyOfPropertyChange(() => this.AdcpFirmwareStatus);
             }
         }
-        
+
+        #endregion
+
+        #region Software Version
+       
+        /// <summary>
+        /// Current Software Version
+        /// </summary>
+        private string _CurrentSoftwareVersion;
+        /// <summary>
+        /// Current Software Version
+        /// </summary>
+        public string CurrentSoftwareVersion
+        {
+            get { return _CurrentSoftwareVersion; }
+            set
+            {
+                _CurrentSoftwareVersion = value;
+                this.NotifyOfPropertyChange(() => this.CurrentSoftwareVersion);
+            }
+        }
+
+        /// <summary>
+        /// New Software Version
+        /// </summary>
+        private string _NewSoftwareVersion;
+        /// <summary>
+        /// New Software Version
+        /// </summary>
+        public string NewSoftwareVersion
+        {
+            get { return _NewSoftwareVersion; }
+            set
+            {
+                _NewSoftwareVersion = value;
+                this.NotifyOfPropertyChange(() => this.NewSoftwareVersion);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -742,6 +788,9 @@ namespace Firmware_Updater
 
             // Get the latest firmware version
             GetFirmwareVersion();
+
+            // Check for software update
+            CheckForUpdates();
         }
 
 
@@ -1177,7 +1226,7 @@ namespace Firmware_Updater
                 await Task.Run(() => adcpVerify = VerifyAdcpConnection());
                 if(!adcpVerify)
                 {
-                    MessageBox.Show("Error talking to the ADCP.  Check your baud rate and comm port.", "No ADCP Connected", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error talking to the ADCP.  Check your baud rate and comm port.", "No ADCP Connected", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     IsLoading = false;
                     return false;
@@ -1189,7 +1238,7 @@ namespace Firmware_Updater
             {
                 if (string.IsNullOrEmpty(_LocalFilePath))
                 {
-                    MessageBox.Show("Firmware zip file not selected.", "No Firmware Selected", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Firmware zip file not selected.", "No Firmware Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FirmwareUpdateStatus = "Error: Select a firmware file.";
                 }
                 else
@@ -1204,7 +1253,7 @@ namespace Firmware_Updater
             {
                 if (string.IsNullOrEmpty(_InternetFile))
                 {
-                    MessageBox.Show("Firmware zip file could not be downloaded.", "No Firmware Selected", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Firmware zip file could not be downloaded.", "No Firmware Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FirmwareUpdateStatus = "Error: Select a firmware file.";
                 }
                 else
@@ -1452,5 +1501,88 @@ namespace Firmware_Updater
 
 
         #endregion
+
+        #region AutoUpdater
+
+        /// <summary>
+        /// Check for update to the software.
+        /// </summary>
+        private void CheckForUpdates()
+        {
+            AutoUpdater.Start(SOFTWARE_UPDATE_URL);
+            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+        }
+
+        /// <summary>
+        /// Event Hnadler for Updater.
+        /// </summary>
+        /// <param name="args"></param>
+        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args != null)
+            {
+                // Current version of the software
+                CurrentSoftwareVersion = args.InstalledVersion.ToString();
+
+                if (args.IsUpdateAvailable)
+                {
+                    // Set the new software warning
+                    NewSoftwareVersion = "There is new version " + args.CurrentVersion.ToString() + " available";
+
+                    DialogResult dialogResult;
+                    if (args.Mandatory)
+                    {
+                        dialogResult =
+                            MessageBox.Show(
+                                $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. This is required update. Press Ok to begin updating the application.", @"Update Available",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        dialogResult =
+                            MessageBox.Show(
+                                $@"There is new version {args.CurrentVersion} available. You are using version {
+                                        args.InstalledVersion
+                                    }. Do you want to update the application now?", @"Update Available",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Information);
+                    }
+
+                    // Uncomment the following line if you want to show standard update dialog instead.
+                    // AutoUpdater.ShowUpdateForm();
+
+                    if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
+                    {
+                        try
+                        {
+                            if (AutoUpdater.DownloadUpdate())
+                            {
+                                Application.Exit();
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    //MessageBox.Show(@"There is no update available please try again later.", @"No update available",
+                    //    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                //MessageBox.Show(
+                //        @"There is a problem reaching update server please check your internet connection and try again later.",
+                //        @"Update check failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
+
+    #endregion
 }

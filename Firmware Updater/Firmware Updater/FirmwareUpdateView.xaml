@@ -25,7 +25,7 @@
 
         <TabControl Grid.Row="0" Margin="5" >
             <TabItem Header="Firmware Updater">
-                <Grid Margin="5,60,5,5">
+                <Grid Margin="5,60,10,50">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
@@ -44,8 +44,8 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="30" Foreground="Gray" />
-                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="30" Foreground="White" />
+                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="CloudDownload" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="Gray" />
+                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="CloudDownload" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="White" />
 
                         <ToggleButton Grid.Row="1" x:Name="firmwareToggle" Background="RoyalBlue" BorderBrush="Transparent" >
                             <Label Content="Select Firmware" FontSize="16" Margin="60,5" Foreground="White" />
@@ -68,8 +68,8 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="Console" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="Gray" />
-                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="Console" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="White" />
+                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="Airplay" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="Gray" />
+                        <iconPacks:PackIconMaterial Grid.Row="0" Kind="Airplay" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,5,20" Height="45" Width="45" Foreground="White" />
 
                         <ToggleButton Grid.Row="1" x:Name="adcpConnToggle" Background="RoyalBlue" BorderBrush="Transparent" Command="{Binding OpenAdcpConnectPopupCommand}"  >
                             <Label Content="Select ADCP" FontSize="16" Margin="60,5" Foreground="White" />
@@ -110,14 +110,14 @@
 
             <TabItem Header="Change Log">
                 <!--Change Log-->
-                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="200">
+                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto" Height="310">
                     <TextBlock Text="{Binding ChangeLog}" Margin="30" Foreground="White" Opacity="0.40" />
                 </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Serial Output">
                 <!--Serial Output-->
-                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="200">
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="310">
                     <TextBlock Text="{Binding SerialOutput}" Margin="30" Foreground="White" Opacity="0.40" />
                 </ScrollViewer>
             </TabItem>
@@ -214,7 +214,7 @@
             </Border>
         </Popup>
 
-        <Grid Grid.Row="1" Margin="10,50,10,10">
+        <Grid Grid.Row="1" Margin="10,10,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -223,6 +223,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -237,7 +238,8 @@
                 <TextBlock Text="ADCP Firmware Updater" Foreground="PaleVioletRed" FontSize="12" FontWeight="Bold" />
             </StackPanel>
             <Image Grid.Row="1" Grid.Column="2" Source="logo_small.png" Width="100" Height="40" HorizontalAlignment="Center" />
-            <Label Grid.Row="1" Grid.Column="3" Content="2.0.0" HorizontalAlignment="Right" Margin="5,5,20,5" Foreground="Gray" />
+            <Label Grid.Row="1" Grid.Column="3" Content="{Binding CurrentSoftwareVersion}" Foreground="Gray" HorizontalAlignment="Right" Margin="5,5,20,5" />
+            <Label Grid.Row="2" Grid.Column="3" Content="{Binding NewSoftwareVersion}" HorizontalAlignment="Right" Margin="5,5,20,5" Foreground="Gray" />
         </Grid>
 
     </Grid>

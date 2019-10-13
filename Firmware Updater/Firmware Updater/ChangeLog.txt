@@ -1,5 +1,9 @@
 ﻿Firmware Updater Changelog
 
+Firmware-Updater-2.0.0
+ - Updated Interface
+ - Download the latest files from new website.
+
 Firmware-Updater-1.1.0
  - Handle if local version is a newer version then on the internet.
  - Automatically scan for ADCP when serial port options changed.
