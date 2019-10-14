@@ -142,7 +142,7 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="ADCP Connection" HorizontalAlignment="Left" Foreground="Gray" Margin="10" FontWeight="Bold" />
@@ -152,11 +152,11 @@
 
                     <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="COMM" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" Margin="10,5" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="COMM" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" Margin="10,5" />
                     <!--TextBlock Grid.Row="2" Grid.Column="1" Text="Baud" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" Margin="10,5" /-->
                     <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding SelectedCommPort}" Margin="10,5" />
                     <!--ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding SelectedBaud}" /-->
-                    <Button Grid.Row="3" Grid.Column="1" Margin="5" Content="Connect" Command="{Binding ConnectAdcpCommand}" IsEnabled="{Binding IsNotLoading}" ToolTip="Connect to the ADCP.  This will take at least 30 seconds while it resets the ADCP baud rate then get the ADCP configuration." />
+                    <Button Grid.Row="3" Grid.Column="1" Margin="5" Content="Connect" Command="{Binding ConnectAdcpCommand}" IsEnabled="{Binding IsNotLoading}" HorizontalAlignment="Right" ToolTip="Connect to the ADCP.  This will take at least 30 seconds while it resets the ADCP baud rate then get the ADCP configuration." />
                     
                     <Separator Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" />
                     

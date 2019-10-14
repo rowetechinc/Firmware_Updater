@@ -1,5 +1,10 @@
 ﻿Firmware Updater Changelog
 
+Firmware-Updater-2.1.0
+ - Changed SLEEP to SLEEPA
+ - Fixed Complete Message
+ - Changed Remote Upload to a seperate thread.
+
 Firmware-Updater-2.0.0
  - Updated Interface
  - Download the latest files from new website.

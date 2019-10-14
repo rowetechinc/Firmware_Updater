@@ -1243,6 +1243,7 @@ namespace Firmware_Updater
                 }
                 else
                 {
+                    // Update the firmware from a local file
                     await Task.Run(() => UpdateFirmwareLocal());
 
                     // Get the ADCP Configuration
@@ -1260,14 +1261,15 @@ namespace Firmware_Updater
                 {
 
                     // Use the downloaded zip file
-                    //await Task.Run(() => UpdateFirmwareRemote());
-                    UpdateFirmwareRemote();
+                    await Task.Run(() => UpdateFirmwareRemote());
 
                     // Get the ADCP Configuration
-                    //await Task.Run(() => GetAdcpConfiguration());
-                    GetAdcpConfiguration();
+                    await Task.Run(() => GetAdcpConfiguration());
                 }
             }
+
+            FirmwareUpdateStatus = "Firmware Update Complete";
+            AdcpFirmwareStatus = "Firmware Update Complete";
 
             IsLoading = false;
 
@@ -1388,7 +1390,14 @@ namespace Firmware_Updater
                 List<string> fileList = new List<string>();
                 foreach (var file in _firmwareInfo.Files)
                 {
-                    fileList.Add(extractPath + @"\" + firmwareFolder + @"\" + file);
+                    if (File.Exists(extractPath + @"\" + firmwareFolder + @"\" + file))
+                    {
+                        fileList.Add(extractPath + @"\" + firmwareFolder + @"\" + file);
+                    }
+                    else if(File.Exists(extractPath + @"\" + file))
+                    {
+                        fileList.Add(extractPath + @"\" + file);
+                    }
                 }
 
                 // Set Status
