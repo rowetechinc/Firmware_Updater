@@ -338,6 +338,66 @@ namespace Firmware_Updater
             }
         }
 
+        /// <summary>
+        /// Select serial port to upload the data.
+        /// </summary>
+        private bool _IsSerialSelected;
+        /// <summary>
+        /// Select serial port to upload the data.
+        /// </summary>
+        public bool IsSerialSelected
+        {
+            get { return _IsSerialSelected; }
+            set
+            {
+                _IsSerialSelected = value;
+
+                // Make the other option the opposite
+                if (_IsEthernetSelected && value)
+                {
+                    IsEthernetSelected = !value;
+                }
+
+                // Make the other option the opposite
+                if (!_IsEthernetSelected && !value)
+                {
+                    IsEthernetSelected = !value;
+                }
+
+                this.NotifyOfPropertyChange(() => this.IsSerialSelected);
+            }
+        }
+
+        /// <summary>
+        /// Select serial port to upload the data.
+        /// </summary>
+        private bool _IsEthernetSelected;
+        /// <summary>
+        /// Select serial port to upload the data.
+        /// </summary>
+        public bool IsEthernetSelected
+        {
+            get { return _IsEthernetSelected; }
+            set
+            {
+                _IsEthernetSelected = value;
+
+                // Make the other option the opposite
+                if (_IsSerialSelected && value)
+                {
+                    IsSerialSelected = !value;
+                }
+
+                // Make the other option the opposite
+                if (!_IsSerialSelected && !value)
+                {
+                    IsSerialSelected = !value;
+                }
+
+                this.NotifyOfPropertyChange(() => this.IsEthernetSelected);
+            }
+        }
+
         #endregion
 
         #region Ports
@@ -785,6 +845,8 @@ namespace Firmware_Updater
             LocalFileTooltip = "Select the firmware zip file";
             InternetFileTooltip = "Get the latest file from the internet.  This will download a zip file and store it to a temporary location.";
             IsInternetSelected = true;
+
+            IsSerialSelected = true;
 
             // Get the latest firmware version
             GetFirmwareVersion();
