@@ -128,7 +128,7 @@
 
         <!--ADCP Connection-->
         <Popup Placement="Bottom" PlacementTarget="{Binding ElementName=adcpConnToggle}" IsOpen="{Binding ElementName=adcpConnToggle, Path=IsChecked}" AllowsTransparency="True">
-            <Border Grid.Row="1" Width="400" Height="350" CornerRadius="10" Background="WhiteSmoke" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible">
+            <Border Grid.Row="1" Width="400" Height="470" CornerRadius="10" Background="WhiteSmoke" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -161,8 +161,8 @@
 
                     <ComboBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding SelectedCommPort}" IsEnabled="{Binding IsSerialSelected}" Margin="10,10,10,2.5"   />
                     <!--ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding SelectedBaud}" /-->
-                        
-                    <Button Grid.Row="3" Grid.Column="2" Margin="5" Content="Connect" Command="{Binding ConnectAdcpCommand}" IsEnabled="{Binding IsNotLoading}" ToolTip="Connect to the ADCP.  This will take at least 30 seconds while it resets the ADCP baud rate then get the ADCP configuration." />
+
+                    <Button Grid.Row="3" Grid.Column="2" Margin="5" Content="Connect" Command="{Binding ConnectAdcpCommand}" IsEnabled="{Binding IsAdcpSerialConnectAvail}" ToolTip="Connect to the ADCP.  This will take at least 30 seconds while it resets the ADCP baud rate then get the ADCP configuration." />
                     
                     <Separator Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="10" />
 
@@ -170,17 +170,17 @@
 
                     <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,10,10,2.5" >
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="192" Width="40" IsEnabled="{Binding IsEthernetSelected}" />
+                            <TextBox Width="40" IsEnabled="{Binding IsEthernetSelected}" Text="{Binding EtherAddressA}" />
                             <TextBlock Text="." VerticalAlignment="Bottom" FontWeight="Bold" Margin="5,0" />
-                            <TextBox Text="168" Width="40" IsEnabled="{Binding IsEthernetSelected}" />
+                            <TextBox Width="40" IsEnabled="{Binding IsEthernetSelected}" Text="{Binding EtherAddressB}" />
                             <TextBlock Text="." VerticalAlignment="Bottom" FontWeight="Bold" Margin="5,0" />
-                            <TextBox Text="0" Width="40" IsEnabled="{Binding IsEthernetSelected}" />
+                            <TextBox Width="40" IsEnabled="{Binding IsEthernetSelected}" Text="{Binding EtherAddressC}" />
                             <TextBlock Text="." VerticalAlignment="Bottom" FontWeight="Bold" Margin="5,0" />
-                            <TextBox Text="130" Width="40" IsEnabled="{Binding IsEthernetSelected}" />
+                            <TextBox Width="40" IsEnabled="{Binding IsEthernetSelected}" Text="{Binding EtherAddressD}" />
                         </StackPanel>
                     </StackPanel>
 
-                    <Button Grid.Row="6" Grid.Column="2" Margin="5" Content="PING" Command="{Binding ConnectAdcpCommand}" IsEnabled="{Binding IsNotLoading}"  ToolTip="Connect to the ADCP.  This will take at least 30 seconds while it resets the ADCP baud rate then get the ADCP configuration." />
+                    <Button Grid.Row="6" Grid.Column="2" Margin="5" Content="PING" Command="{Binding PingAdcpEthernetPortCommand}" IsEnabled="{Binding IsAdcpPingAvail}"  ToolTip="Connect to the ADCP.  This will take at least 30 seconds while it resets the ADCP baud rate then get the ADCP configuration." />
 
                     <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Margin="10" />
                     

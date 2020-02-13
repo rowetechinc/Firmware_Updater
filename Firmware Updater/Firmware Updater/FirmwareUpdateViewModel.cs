@@ -142,9 +142,19 @@ namespace Firmware_Updater
         private AdcpSerialPort _serialPort;
 
         /// <summary>
+        /// ADCP ethernet port.
+        /// </summary>
+        private AdcpEthernet _ethernetPort;
+
+        /// <summary>
         /// ADCP Serial port options.
         /// </summary>
         private SerialOptions _serialOptions;
+
+        /// <summary>
+        /// ADCP Ethernet port options.
+        /// </summary>
+        private AdcpEthernetOptions _ethernetOptions;
 
         /// <summary>
         /// The firmware info found on the internet.
@@ -172,7 +182,9 @@ namespace Firmware_Updater
                 _IsLoading = value;
                 this.NotifyOfPropertyChange(() => this.IsLoading);
                 this.NotifyOfPropertyChange(() => this.CanUpdate);
-                this.NotifyOfPropertyChange(() => this.IsNotLoading);
+                this.NotifyOfPropertyChange(() => this.IsNotLoading); 
+                this.NotifyOfPropertyChange(() => this.IsAdcpSerialConnectAvail);
+                this.NotifyOfPropertyChange(() => this.IsAdcpPingAvail);
             }
         }
 
@@ -197,9 +209,29 @@ namespace Firmware_Updater
                 this.NotifyOfPropertyChange(() => this.IsCheckingAdcp);
                 this.NotifyOfPropertyChange(() => this.IsLoading);
                 this.NotifyOfPropertyChange(() => this.IsNotLoading);
+                this.NotifyOfPropertyChange(() => this.IsAdcpSerialConnectAvail);
+                this.NotifyOfPropertyChange(() => this.IsAdcpPingAvail);
             }
         }
 
+
+        /// <summary>
+        /// Flag for checking ADCP.
+        /// </summary>
+        public bool IsAdcpSerialConnectAvail
+        {
+            get { return !IsLoading && _IsSerialSelected; }
+
+        }
+
+        /// <summary>
+        /// Flag for checking ADCP.
+        /// </summary>
+        public bool IsAdcpPingAvail
+        {
+            get { return !IsLoading && _IsEthernetSelected; }
+
+        }
 
 
 
@@ -306,6 +338,8 @@ namespace Firmware_Updater
                 }
 
                 this.NotifyOfPropertyChange(() => this.IsLocalFileSelected);
+                this.NotifyOfPropertyChange(() => this.IsAdcpSerialConnectAvail);
+                this.NotifyOfPropertyChange(() => this.IsAdcpPingAvail);
             }
         }
 
@@ -335,6 +369,8 @@ namespace Firmware_Updater
                 }
 
                 this.NotifyOfPropertyChange(() => this.IsInternetSelected);
+                this.NotifyOfPropertyChange(() => this.IsAdcpSerialConnectAvail);
+                this.NotifyOfPropertyChange(() => this.IsAdcpPingAvail);
             }
         }
 
@@ -365,6 +401,8 @@ namespace Firmware_Updater
                 }
 
                 this.NotifyOfPropertyChange(() => this.IsSerialSelected);
+                this.NotifyOfPropertyChange(() => this.IsAdcpSerialConnectAvail);
+                this.NotifyOfPropertyChange(() => this.IsAdcpPingAvail);
             }
         }
 
@@ -395,6 +433,8 @@ namespace Firmware_Updater
                 }
 
                 this.NotifyOfPropertyChange(() => this.IsEthernetSelected);
+                this.NotifyOfPropertyChange(() => this.IsAdcpSerialConnectAvail);
+                this.NotifyOfPropertyChange(() => this.IsAdcpPingAvail);
             }
         }
 
@@ -473,6 +513,100 @@ namespace Firmware_Updater
 
                 // Reset check to update
                 this.NotifyOfPropertyChange(() => this.CanUpdate);
+            }
+        }
+
+        #endregion
+
+        #region Ethernet
+
+
+        /// <summary>
+        /// Selected ADCP Ethernet Address A.
+        /// </summary>
+        public string EtherAddressA
+        {
+            get
+            {
+                return _ethernetOptions.IpAddrA.ToString();
+            }
+            set
+            {
+                // ADCP Ethernet Option Address A
+                _ethernetOptions.IpAddrA = uint.Parse(value);
+
+                this.NotifyOfPropertyChange(() => this.EtherAddressA);
+            }
+        }
+
+        /// <summary>
+        /// Selected ADCP Ethernet Address B.
+        /// </summary>
+        public string EtherAddressB
+        {
+            get
+            {
+                return _ethernetOptions.IpAddrB.ToString();
+            }
+            set
+            {   
+                // Ethernet options
+                _ethernetOptions.IpAddrB = uint.Parse(value); ;
+
+                this.NotifyOfPropertyChange(() => this.EtherAddressB);
+            }
+        }
+
+        /// <summary>
+        /// Selected ADCP Ethernet Address C.
+        /// </summary>
+        public string EtherAddressC
+        {
+            get
+            {
+                return _ethernetOptions.IpAddrC.ToString();
+            }
+            set
+            {
+                // ADCP Ethernet Option Address C
+                _ethernetOptions.IpAddrC = uint.Parse(value);
+
+                this.NotifyOfPropertyChange(() => this.EtherAddressC);
+            }
+        }
+
+        /// <summary>
+        /// Selected ADCP Ethernet Address D.
+        /// </summary>
+        public string EtherAddressD
+        {
+            get
+            {
+                return _ethernetOptions.IpAddrD.ToString();
+            }
+            set
+            {
+                // ADCP Ethernet Option Address D
+                _ethernetOptions.IpAddrD = uint.Parse(value); ;
+
+                this.NotifyOfPropertyChange(() => this.EtherAddressD);
+            }
+        }
+
+        /// <summary>
+        /// Ethernet Port
+        /// </summary>
+        public uint EtherPort
+        {
+            get
+            {
+                return _ethernetOptions.Port;
+            }
+            set
+            {
+                // Set the ethernet port
+                _ethernetOptions.Port = value;
+                this.NotifyOfPropertyChange(() => this.EtherPort);
             }
         }
 
@@ -764,9 +898,14 @@ namespace Firmware_Updater
         public ReactiveCommand<object> UpdateFirmwareCommand { get; protected set; }
 
         /// <summary>
-        /// Connect the ADCP.
+        /// Connect the ADCP Serial Port.
         /// </summary>
         public ReactiveCommand<object> ConnectAdcpCommand { get; protected set; }
+
+        /// <summary>
+        /// Ping the ADCP Ethernet Port.
+        /// </summary>
+        public ReactiveCommand<object> PingAdcpEthernetPortCommand { get; protected set; }
 
         /// <summary>
         /// Open Adcp Connect Popup.
@@ -799,7 +938,9 @@ namespace Firmware_Updater
 
             ConnectAdcpCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
             ConnectAdcpCommand.Subscribe(_ => Task.Run(() => ReconnectAdcp()));
-            
+
+            PingAdcpEthernetPortCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
+            PingAdcpEthernetPortCommand.Subscribe(_ => Task.Run(() => PingAdcpEthernet()));
 
             OpenAdcpConnectPopupCommand = ReactiveUI.Legacy.ReactiveCommand.Create();
             OpenAdcpConnectPopupCommand.Subscribe(_ => Task.Run(() => OpenAdcpConnectPopup()));
@@ -822,6 +963,7 @@ namespace Firmware_Updater
         public void Init()
         {
             _serialOptions = new SerialOptions();
+            _ethernetOptions = new AdcpEthernetOptions();
 
             CommPortList = SerialOptions.PortOptions;
             BaudRateList = SerialOptions.BaudRateOptions;
@@ -869,41 +1011,45 @@ namespace Firmware_Updater
 
             List<AdcpSerialPort.AdcpSerialOptions> serialConnOptions = new List<AdcpSerialPort.AdcpSerialOptions>();
 
-            FirmwareUpdateStatus = "Looking for an ADCP";
-
-            if (_serialPort != null)
+            // Do this for serial ADCP connection
+            if (_IsSerialSelected)
             {
-                // Scan all the serial ports
-                await Task.Run(() => serialConnOptions = _serialPort.ScanSerialConnection());
+                FirmwareUpdateStatus = "Looking for an ADCP";
 
-                // If any good serial ports were found, use the first serial port
-                if (serialConnOptions.Count > 0)
+                if (_serialPort != null)
                 {
-                    // Set the selected ports
-                    _SelectedCommPort = serialConnOptions.First().SerialOptions.Port;
-                    _serialOptions.Port = serialConnOptions.First().SerialOptions.Port;
-                    _SelectedBaud = serialConnOptions.First().SerialOptions.BaudRate;
-                    _serialOptions.BaudRate = serialConnOptions.First().SerialOptions.BaudRate;
-                    this.NotifyOfPropertyChange(() => this.SelectedCommPort);
-                    this.NotifyOfPropertyChange(() => this.SelectedBaud);
+                    // Scan all the serial ports
+                    await Task.Run(() => serialConnOptions = _serialPort.ScanSerialConnection());
 
-                    // Reconnect the ADCP serial connection
-                    ReconnectAdcpSerial(_serialOptions);
+                    // If any good serial ports were found, use the first serial port
+                    if (serialConnOptions.Count > 0)
+                    {
+                        // Set the selected ports
+                        _SelectedCommPort = serialConnOptions.First().SerialOptions.Port;
+                        _serialOptions.Port = serialConnOptions.First().SerialOptions.Port;
+                        _SelectedBaud = serialConnOptions.First().SerialOptions.BaudRate;
+                        _serialOptions.BaudRate = serialConnOptions.First().SerialOptions.BaudRate;
+                        this.NotifyOfPropertyChange(() => this.SelectedCommPort);
+                        this.NotifyOfPropertyChange(() => this.SelectedBaud);
 
-                    // Set the status
-                    AdcpStatus = "ADCP Connected";
-                    AdcpFirmwareStatus = "ADCP Connected";
+                        // Reconnect the ADCP serial connection
+                        ReconnectAdcpSerial(_serialOptions);
 
-                    // Set flag
-                    IsAdcpFound = true;
+                        // Set the status
+                        AdcpStatus = "ADCP Connected";
+                        AdcpFirmwareStatus = "ADCP Connected";
 
-                    // Get the ADCP Configuration
-                    await Task.Run(() => GetAdcpConfiguration());
-                }
-                else
-                {
-                    // Set flag
-                    IsAdcpFound = false;
+                        // Set flag
+                        IsAdcpFound = true;
+
+                        // Get the ADCP Configuration
+                        await Task.Run(() => GetAdcpConfiguration());
+                    }
+                    else
+                    {
+                        // Set flag
+                        IsAdcpFound = false;
+                    }
                 }
             }
 
@@ -922,9 +1068,22 @@ namespace Firmware_Updater
 
             try
             {
-                if (!string.IsNullOrEmpty(_SelectedCommPort))
+                if (_IsSerialSelected)
                 {
-                    return _serialPort.TestSerialPortConnection();
+                    if (!string.IsNullOrEmpty(_SelectedCommPort))
+                    {
+                        return _serialPort.TestSerialPortConnection();
+                    }
+                }
+                else
+                {
+                    if(!string.IsNullOrEmpty(EtherAddressA) &&
+                       !string.IsNullOrEmpty(EtherAddressB) &&
+                       !string.IsNullOrEmpty(EtherAddressC) &&
+                       !string.IsNullOrEmpty(EtherAddressD))
+                    {
+                        return _ethernetPort.TestEthernetConnection();
+                    }
                 }
             }
             catch (Exception)
@@ -932,6 +1091,8 @@ namespace Firmware_Updater
                 return false;
             }
 
+            AdcpFirmwareStatus = "ADCP Not Found";
+            AdcpFirmwareVersion = "Verify ADCP connection settings are correct";
 
             return false;
         }
@@ -945,8 +1106,16 @@ namespace Firmware_Updater
             // Set the status
             FirmwareUpdateStatus = "Getting ADCP Configuration";
 
-            // Send a BREAK to get the firmware version
-            AdcpConfiguration config = _serialPort.GetAdcpConfiguration();
+            AdcpConfiguration config = null;
+            if (_IsSerialSelected)
+            {
+                // Get the ADCP configuration
+                config = _serialPort.GetAdcpConfiguration();
+            }
+            else
+            {
+                config = _ethernetPort.GetAdcpConfiguration();
+            }
 
             // Set the ADCP Firmware
             AdcpFirmwareVersion = config.AdcpSerialOptions.Firmware.ToString();
@@ -997,6 +1166,11 @@ namespace Firmware_Updater
                 IsAdcpFound = true;
 
                 GetAdcpConfiguration();
+            }
+            else
+            {
+                AdcpFirmwareStatus = "ADCP Not Found";
+                AdcpFirmwareVersion = "Verify ADCP connection settings are correct";
             }
 
             IsLoading = false;
@@ -1465,8 +1639,17 @@ namespace Firmware_Updater
                 // Set Status
                 FirmwareUpdateStatus = "Uploading Firmware to ADCP";
 
-                // Update the firmware with the file list
-                _serialPort.UpdateFirmware(fileList.ToArray());
+                // Serial Port Update Firmware
+                if (_IsSerialSelected)
+                {
+                    // Update the firmware with the file list
+                    _serialPort.UpdateFirmware(fileList.ToArray());
+                }
+                else
+                {
+                    // Ethernet Port Update Firmware
+                    _ethernetPort.UpdateFirmware(fileList.ToArray());
+                }
 
                 FirmwareUpdateStatus = "Firmware Update Complete";
                 AdcpFirmwareStatus = "Firmware Update Complete";
@@ -1478,6 +1661,37 @@ namespace Firmware_Updater
                 Debug.WriteLine("Error uploading the files to the ADCP: " + e.Message);
                 System.Windows.MessageBox.Show("Error uploading to the ADCP. " + e.Message, "Error Uploading to the ADCP", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
+        }
+
+        #endregion
+
+        #region ADCP Ethernet Port
+
+        private void PingAdcpEthernet()
+        {
+            if (_ethernetPort == null ||
+                _ethernetPort.Options.IpAddrA != _ethernetOptions.IpAddrA ||
+                _ethernetPort.Options.IpAddrB != _ethernetOptions.IpAddrB ||
+                _ethernetPort.Options.IpAddrC != _ethernetOptions.IpAddrC ||
+                _ethernetPort.Options.IpAddrD != _ethernetOptions.IpAddrD)
+            {
+                _ethernetPort = new AdcpEthernet(_ethernetOptions);
+                _ethernetPort.ReceiveEthernetDataEvent += _ethernetPort_ReceiveEthernetDataEvent;
+            }
+
+            // Try to get the configuration
+            BackgroundWorker bg = new BackgroundWorker();
+            bg.DoWork += TryGetConfiguration;
+            bg.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// Pass the ADCP data from the port to the serial output.
+        /// </summary>
+        /// <param name="data"></param>
+        private void _ethernetPort_ReceiveEthernetDataEvent(string data)
+        {
+            SerialOutput += data;
         }
 
         #endregion
