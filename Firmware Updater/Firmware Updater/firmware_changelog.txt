@@ -1,4 +1,13 @@
-﻿Release 0.2.133
+﻿Release 0.2.136
+        Date: Monday, January 27, 2020 8:45:00 AM 
+        1. CBTON and CWPON will work with values > 1
+        2. Added a null to terminate the string stored on the current            recorder file number.
+        3. Added logic to the CTRIG x,x,1 to ensure the trigger resets for            each ensemble.
+Release 0.2.134
+        Date: Tuesday, October 29, 2019 4:46:33 AM 
+        1. Rev to version 0.2.134
+        2. Allow CBTON and CWTON to work with values > 1
+Release 0.2.133
         Date: Monday, September 16, 2019 4:55:39 AM 
         1. Rev to version 0.2.133
         2. Changed default CBTAMPREF[0] 0.xx,50.00 to turn off life layer rejection

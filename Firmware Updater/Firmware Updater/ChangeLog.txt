@@ -1,5 +1,8 @@
 ﻿Firmware Updater Changelog
 
+Firmware-Updater-3.0.0
+ - Added Ethernet Upload
+
 Firmware-Updater-2.1.0
  - Changed SLEEP to SLEEPA
  - Fixed Complete Message

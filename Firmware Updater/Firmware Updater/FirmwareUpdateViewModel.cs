@@ -34,6 +34,7 @@
  * Date            Initials    Version    Comments
  * -----------------------------------------------------------------
  * 03/02/2017      RC          1.0.0      Initial coding
+ * 02/14/2020      RC          3.0.0      Added Ethernet Upload.
  * 
  */
 
@@ -1677,6 +1678,9 @@ namespace Firmware_Updater
             {
                 _ethernetPort = new AdcpEthernet(_ethernetOptions);
                 _ethernetPort.ReceiveEthernetDataEvent += _ethernetPort_ReceiveEthernetDataEvent;
+                _ethernetPort.UploadProgressEvent += new AdcpEthernet.UploadProgressEventHandler(On_UploadProgressEvent);
+                _ethernetPort.UploadCompleteEvent += new AdcpEthernet.UploadCompleteEventHandler(On_UploadCompleteEvent);
+                _ethernetPort.UploadFileSizeEvent += new AdcpEthernet.UploadFileSizeEventHandler(On_UploadFileSizeEvent);
             }
 
             // Try to get the configuration
