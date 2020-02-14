@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<item>
+  <title>New version 3.0.0 of Rowe Technologies, Inc. Firmware Updater is available.</title>
+  <version>3.0.0</version>
+  <url>http://www.rowetechinc.com/swfw/latest/firmware/RTI.Firmware.Updater.Installer.v.3.0.0.Full.exe</url>
+  <changelog>http://www.rowetechinc.com/swfw/latest/firmware/releasenotes.html</changelog>
+  <mandatory>true</mandatory>
+</item>
