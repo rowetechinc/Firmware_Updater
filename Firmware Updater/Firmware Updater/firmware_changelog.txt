@@ -1,4 +1,15 @@
-﻿Release 0.2.136
+﻿Release 0.2.140
+	Date: Thursday, March 19, 2020 12:08:00 PM
+	1. added check to make sure burst file is not to big
+	2. updated help.txt
+	3. user guide update
+	4. added burstID and burstIndex to E0000008
+	5. added engdi command
+	6. improved SD card file size handler
+	7. improved the sleep function for receiver timeout
+	8. Added large file recording
+	9. Added large file storage for burst. Files contain multiple appended bursts. Up to 20 MB per file.
+Release 0.2.136
         Date: Monday, January 27, 2020 8:45:00 AM 
         1. CBTON and CWPON will work with values > 1
         2. Added a null to terminate the string stored on the current            recorder file number.
